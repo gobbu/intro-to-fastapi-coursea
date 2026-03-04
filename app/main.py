@@ -1,12 +1,15 @@
 from fastapi import FastAPI 
 from scalar_fastapi import get_scalar_api_reference
+from typing import Any 
 
 app = FastAPI() 
 
 #created our first api endpoint 
-@app.get("/shipment")  #we can also have nested directories. ie. /seller/shipment 
-def get_shipment(): 
+@app.get("/shipment/{id}")  #we can also have nested directories. ie. /seller/shipment 
+def get_shipment(id: int | float ) -> dict[str, Any ]: 
     return { 
+        "id ": id, 
+        "weight" : 1.2,
         "content": "wooden table",
         "shipment_status": "in transit"
     }
