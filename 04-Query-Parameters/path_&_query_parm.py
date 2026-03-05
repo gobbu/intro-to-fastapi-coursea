@@ -88,11 +88,12 @@ def submit_shipment(weight: float, req_body:dict[str, str] ) -> dict[str, Any]:
     
     return {"id" : new_id }
 
-@app.get("/shipment/{field}")
-def get_shipment_feild(field: str, id: int)-> Any: 
-    return shipments[id][field]
-    
 
+@app.get("/shipment/{field}")
+def get_shipment_feild(field: str, id: int)-> dict[ str, Any]: 
+    return { 
+        field: shipments[id][field]
+    }
 
 
 #we have defined a custom documentation using opanapi specification 

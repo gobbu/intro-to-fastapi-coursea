@@ -45,10 +45,7 @@ shipments = {
 }
 
 
-@app.get("/shipment/latest") 
-def get_latest_shipment(): 
-    id = max(shipments.keys()) 
-    return shipments[id] 
+
 
 
 #created our first api endpoint 
@@ -68,9 +65,9 @@ def get_shipment(id: int | None = None ) -> dict[str, Any ]:
 
 
 @app.post("/shipment")
-def submit_shipment(weight: float, req_body:dict[str, str] ) -> dict[str, Any]: 
+def submit_shipment(req_body:dict[str, Any] ) -> dict[str, Any]: 
     content = req_body["content"] 
-    #weight = req_body["weight"]
+    weight = req_body["weight"]
     new_id = max(shipments.keys()) + 1 
 
     if weight > 25: 
@@ -88,10 +85,6 @@ def submit_shipment(weight: float, req_body:dict[str, str] ) -> dict[str, Any]:
     
     return {"id" : new_id }
 
-@app.get("/shipment/{field}")
-def get_shipment_feild(field: str, id: int)-> Any: 
-    return shipments[id][field]
-    
 
 
 

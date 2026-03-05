@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status, HTTPException 
+from fastapi import FastAPI, status, HTTPException  
 from scalar_fastapi import get_scalar_api_reference
 from typing import Any 
 
@@ -45,12 +45,6 @@ shipments = {
 }
 
 
-@app.get("/shipment/latest") 
-def get_latest_shipment(): 
-    id = max(shipments.keys()) 
-    return shipments[id] 
-
-
 #created our first api endpoint 
 @app.get("/shipment")  #use a "?" to indicate we are using query parameters 
 def get_shipment(id: int | None = None ) -> dict[str, Any ]: 
@@ -58,7 +52,7 @@ def get_shipment(id: int | None = None ) -> dict[str, Any ]:
         raise HTTPException(
             status_code = status.HTTP_404_NOT_FOUND, 
             detail = "Given ID does not exists"
-        ) 
+        )
         return shipments[id] 
 
 
@@ -66,32 +60,6 @@ def get_shipment(id: int | None = None ) -> dict[str, Any ]:
         return {"detail": "Given Id does not exists!" }
     return shipments[id]
 
-
-@app.post("/shipment")
-def submit_shipment(weight: float, req_body:dict[str, str] ) -> dict[str, Any]: 
-    content = req_body["content"] 
-    #weight = req_body["weight"]
-    new_id = max(shipments.keys()) + 1 
-
-    if weight > 25: 
-        raise HTTPException(
-            status_code = status.HTTP_406_NOT_ACCEPTABLE ,
-            detail = "Maxium weight limit is 25kg"
-        )
-    
-
-    shipments[new_id] =  {
-        "content" : content, 
-        "weight": weight, 
-        "status": "placed" 
-    }
-    
-    return {"id" : new_id }
-
-@app.get("/shipment/{field}")
-def get_shipment_feild(field: str, id: int)-> Any: 
-    return shipments[id][field]
-    
 
 
 
