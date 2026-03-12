@@ -79,11 +79,7 @@ def patch_shipment(
     shipments[id] = shipment
     return shipment  
 
-@app.delete("/shipment") 
-def delete_shipment(id: int)-> dict[str, str]: 
-    shipments.pop(id) 
-    return {"detail" : f"shipment with id #{id} is deleted!"}
-
+    
 
 
 @app.get("/shipment/{field}")

@@ -67,26 +67,6 @@ def get_shipment(id: int | None = None ) -> dict[str, Any ]:
     return shipments[id]
 
 
-@app.post("/shipment")
-def submit_shipment(weight: float, req_body:dict[str, str] ) -> dict[str, Any]: 
-    content = req_body["content"] 
-    #weight = req_body["weight"]
-    new_id = max(shipments.keys()) + 1 
-
-    if weight > 25: 
-        raise HTTPException(
-            status_code = status.HTTP_406_NOT_ACCEPTABLE ,
-            detail = "Maxium weight limit is 25kg"
-        )
-    
-
-    shipments[new_id] =  {
-        "content" : content, 
-        "weight": weight, 
-        "status": "placed" 
-    }
-    
-    return {"id" : new_id }
 
 
 @app.get("/shipment/{field}")
@@ -96,10 +76,3 @@ def get_shipment_feild(field: str, id: int)-> dict[ str, Any]:
     }
 
 
-#we have defined a custom documentation using opanapi specification 
-@app.get("/scalar", include_in_schema = False) 
-def get_scalar_docs(): 
-    return get_scalar_api_reference(
-        openapi_url = app.openapi_url, 
-        title = "Scalar API" , 
-    )
