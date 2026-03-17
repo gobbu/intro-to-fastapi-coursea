@@ -11,8 +11,8 @@ def random_destination():
 
 
 class ShipmentStatus(str, Enum) :
-    placed: str = "placed"
-    in_transit: str  = "in_transit"
+    placed = "placed"
+    in_transit = "in_transit"
     out_for_delivery = "out_for_delivery"
     delivered = "delivered" 
 
@@ -25,7 +25,13 @@ class BaseShipment(BaseModel):
 
 #having a base class, we can use inhertance which makes all new classes pydantic models 
 class ShipmentRead(BaseShipment):
-    status: ShipmentStatus
+    status: ShipmentStatus = Field(alias= "shipment_status" )
+
+
+class Order(BaseModel): 
+    price: int 
+    title: str 
+    description: str 
 
 
 #making it a basemodel uses pydantic (enforces type/data validation during runtime )
@@ -33,4 +39,7 @@ class ShipmentCreate(BaseShipment):
     pass
 
 class ShipmentUpdate(BaseModel): 
+    content: str | None = Field(default= None)
+    weight: float | None  =  Field(default= 0 ,le = 25) 
+    destination: int | None = Field(default= 0)
     status: ShipmentStatus
